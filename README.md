@@ -1,2 +1,2 @@
 # Netflix_Clone
- Netflix _Clone using MERN stack
+Netflix _Clone using MERN stack
