@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 const corsOptions = {
-    origin: process.env.FRONTEND_URL,
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
     credentials: true
 }
 app.use(cors(corsOptions));
@@ -43,6 +43,6 @@ if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../netflix/public/build')));
 
     app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, '../netflix/public/build', 'index.html'));
+        res.sendFile(path.join(__dirname, '../netflix/public/buildindex.html'));
     });
 }
