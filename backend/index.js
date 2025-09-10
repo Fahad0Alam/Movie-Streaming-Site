@@ -32,17 +32,20 @@ app.listen(process.env.PORT, () => {
 });
 
 
-import path from 'path';
-import { fileURLToPath } from 'url';
+
+import path from "path";
+import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(
     import.meta.url);
 const __dirname = path.dirname(__filename);
 
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../netflix/build')));
+if (process.env.NODE_ENV === "production") {
+    // Serve static files from React build folder
+    app.use(express.static(path.join(__dirname, "../netflix/build")));
 
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, '../netflix/build/index.html'));
+    // Catch-all handler: send back index.html for any route
+    app.get("*", (req, res) => {
+        res.sendFile(path.join(__dirname, "../netflix/build", "index.html"));
     });
 }
