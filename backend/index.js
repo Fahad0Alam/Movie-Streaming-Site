@@ -9,24 +9,40 @@ import cors from "cors";
 databaseConnection();
 
 dotenv.config({
-    path : '.env'
+    path: '.env'
 })
 
 const app = express();
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
 const corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: process.env.FRONTEND_URL,
     credentials: true
 }
 app.use(cors(corsOptions));
 
 
 //api
-app.use("/api/v1/user",router);
+app.use("/api/v1/user", router);
 
-app.listen(process.env.PORT,() => {
+app.listen(process.env.PORT, () => {
     console.log(`Server listen at port ${process.env.PORT || 7000}`);
 });
+
+
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(
+    import.meta.url);
+const __dirname = path.dirname(__filename);
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../netflix/public/build')));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, '../netflix/public/build', 'index.html'));
+    });
+}
